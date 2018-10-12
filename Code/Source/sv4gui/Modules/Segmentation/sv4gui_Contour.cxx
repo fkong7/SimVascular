@@ -54,6 +54,17 @@ sv4guiContour::sv4guiContour(const sv4guiContour &other)
 {
 }
 
+sv4guiContour::sv4guiContour(const Contour &other)
+    : Contour(other),
+      m_Placed( false ),
+      m_PlaneGeometry( nullptr ),
+      m_PreviewControlPointVisible( false ),
+      m_Extendable( false ),
+      m_Selected(false)
+{
+    
+}
+
 sv4guiContour::~sv4guiContour()
 {
 }
@@ -174,6 +185,12 @@ void sv4guiContour::SetControlPoints(std::vector<mitk::Point3D> controlPoints, b
     }
     
     this->sv3::Contour::SetControlPoints(stdPoints,updateContour);
+            
+}
+
+void sv4guiContour::SetControlPoints(std::vector<std::array<double,3> > controlPoints, bool updateContour)
+{
+    this->sv3::Contour::SetControlPoints(controlPoints,updateContour);
             
 }
 
@@ -352,6 +369,24 @@ void sv4guiContour::SetPathPoint(sv4guiPathElement::sv4guiPathPoint pathPoint)
     m_PlaneGeometry=sv4guiSegmentationUtils::CreatePlaneGeometry(pathPoint,spacing, 1.0);
 }
 
+void sv4guiContour::SetPathPoint(sv3::PathElement::PathPoint pathPoint)
+{
+    sv4guiPathElement::sv4guiPathPoint pthPt;
+    for (int i = 0; i<3; i++)
+    {
+        pthPt.pos[i]=pathPoint.pos[i];
+        pthPt.tangent[i] = pathPoint.tangent[i];
+        pthPt.rotation[i] = pathPoint.rotation[i];
+    }
+        pthPt.id = pathPoint.id;
+    
+    this->sv3::Contour::SetPathPoint(pathPoint);
+
+    mitk::Vector3D spacing;
+    spacing.Fill(0.1);
+
+    m_PlaneGeometry=sv4guiSegmentationUtils::CreatePlaneGeometry(pthPt,spacing, 1.0);
+}
 
 mitk::Point3D sv4guiContour::GetPathPosPoint()
 {

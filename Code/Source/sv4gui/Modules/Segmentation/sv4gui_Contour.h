@@ -60,6 +60,8 @@ public:
     sv4guiContour();
 
     sv4guiContour(const sv4guiContour &other);
+    
+    sv4guiContour(const Contour &other);
 
     virtual ~sv4guiContour();
 
@@ -68,6 +70,8 @@ public:
     sv4guiPathElement::sv4guiPathPoint GetPathPoint();
 
     void SetPathPoint(sv4guiPathElement::sv4guiPathPoint pathPoint);
+    
+    void SetPathPoint(sv3::PathElement::PathPoint pathPoint);
 
     mitk::Point3D GetPathPosPoint();
 
@@ -102,10 +106,16 @@ public:
     virtual void SetControlPoint(int index, mitk::Point3D point);
 
     void PlaceContour(mitk::Point3D point);
+    
+    void InsertContour(int contourIndex, Contour* contour, unsigned int t);
+    
+    std::vector<Contour*> GetValidContourSet(unsigned int t);
 
     virtual void PlaceControlPoints(mitk::Point3D point);
 
     void SetControlPoints(std::vector<mitk::Point3D> controlPoints, bool updateContour = true);
+    
+    void SetControlPoints(std::vector<std::array<double,3> > controlPoints, bool updateContour = true);
 
     void SetPreviewControlPoint(mitk::Point3D point );
     
@@ -121,7 +131,7 @@ public:
     virtual void CreateContourPoints(){}
 
     void SetContourPoints(std::vector<mitk::Point3D> contourPoints, bool update = true);
-    
+        
     void SetContourPoints(std::vector<std::array<double,3> > contourPoints, bool update=true);
 
     mitk::Point3D GetContourPoint(int index);

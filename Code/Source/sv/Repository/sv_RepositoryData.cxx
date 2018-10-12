@@ -97,6 +97,9 @@ char *RepositoryDataT_EnumToStr( RepositoryDataT val )
   case CONTOUR_T:
     strcpy( result, "Contour");
     break;
+  case CONTOURGROUP_T:
+    strcpy( result, "ContourGroup");
+    break;
   default:
     strcpy( result, "Invalid RepositoryData type" );
     break;

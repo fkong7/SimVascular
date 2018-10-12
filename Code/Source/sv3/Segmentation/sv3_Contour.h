@@ -190,6 +190,8 @@ public:
     void SetMaxControlPointNumber(int number);
 
     std::array<double,3> GetControlPoint(int index);
+    
+    std::vector<std::array<double,3> > GetControlPoints();
 
     void InsertControlPoint(int index, std::array<double,3> point);
 

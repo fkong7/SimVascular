@@ -42,8 +42,8 @@ CREATE_EXPORTS_CV_FILE_H=sv3SegmentationExports.h
 
 CXXFLAGS += -DSV_EXPORT_SEGMENTATION_COMPILE
 
-HDRS	= sv3_Contour.h sv3_LevelSetContour.h sv3_SegmentationUtils.h sv3_CircleContour.h sv3_PolygonContour.h sv3_SplinePolygonContour.h sv3_ThresholdContour.h
-CXXSRCS	= sv3_Contour.cxx sv3_LevelSetContour.cxx sv3_SegmentationUtils.cxx sv3_CircleContour.cxx sv3_PolygonContour.cxx sv3_SplinePolygonContour.cxx sv3_ThresholdContour.cxx
+HDRS	= sv3_Contour.h sv3_ContourGroup.h sv3_ContourGroupIO.h sv3_LevelSetContour.h sv3_SegmentationUtils.h sv3_CircleContour.h sv3_PolygonContour.h sv3_SplinePolygonContour.h sv3_ThresholdContour.h
+CXXSRCS	= sv3_Contour.cxx sv3_ContourGroup.cxx sv3_ContourGroupIO.cxx sv3_LevelSetContour.cxx sv3_SegmentationUtils.cxx sv3_CircleContour.cxx sv3_PolygonContour.cxx sv3_SplinePolygonContour.cxx sv3_ThresholdContour.cxx
 
 
 SVPYHDRS = sv3_Contour_init_py.h sv3_LevelSetContour_init_py.h sv3_CircleContour_init_py.h sv3_PolygonContour_init_py.h sv3_SplinePolygonContour_init_py.h sv3_ThresholdContour_init_py.h

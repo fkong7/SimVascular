@@ -312,6 +312,11 @@ std::array<double, 3> Contour::GetControlPoint(int index){
     return point;
 }
 
+std::vector<std::array<double, 3> > Contour::GetControlPoints()
+{
+    return m_ControlPoints;
+}
+
 void Contour::InsertControlPoint(int index, std::array<double, 3> point)
 {
     if(index==-1) index=m_ControlPoints.size();
