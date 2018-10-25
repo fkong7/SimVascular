@@ -49,98 +49,6 @@
 
 using sv3::svLoftingParam;
 
-// struct SV4GUIMODULESEGMENTATION_EXPORT svLoftingParam
-// {
-//     std::string method;
-// 
-//     //Spline Lofting
-//     int numOutPtsInSegs;//sampleDefault
-//     //std::vector<int> overrides;
-//     int samplePerSegment;
-//     int useLinearSampleAlongLength;
-//     int linearMuliplier;
-//     int useFFT;
-//     int numModes;
-// 
-//     int addCaps;
-//     //int noInterOut;
-//     int vecFlag;
-// 
-//     //int numSegs=0;
-//     int numOutPtsAlongLength;//=samplePerSegment*numSegs
-//     int numPtsInLinearSampleAlongLength;//=linearMuliplier*numOutPtsAlongLength
-//     int splineType;
-// 
-//     int numSuperPts;//the number of points of the contour with the maximum point number
-// 
-//     double bias;
-//     double tension;
-//     double continuity;
-// 
-//     //Nurbs Lofting
-//     int uDegree;
-//     int vDegree;
-//     std::string uKnotSpanType;
-//     std::string vKnotSpanType;
-//     std::string uParametricSpanType;
-//     std::string vParametricSpanType;
-// 
-//     svLoftingParam()
-//         : method("nurbs")
-//         , numOutPtsInSegs(60)
-//         , samplePerSegment(12)
-//         , useLinearSampleAlongLength(1)
-//         , linearMuliplier(10)
-//         , useFFT(0)
-//         , numModes(20)
-//         , addCaps(0)
-//         //, noInterOut(1)
-//         , vecFlag(0)
-//         , numOutPtsAlongLength(0)
-//         , numPtsInLinearSampleAlongLength(0)
-//         , splineType(0)
-//         , numSuperPts(0)
-//         , bias(0)
-//         , tension(0)
-//         , continuity(0)
-//         , uDegree(2)
-//         , vDegree(2)
-//         , uKnotSpanType("derivative")
-//         , vKnotSpanType("average")
-//         , uParametricSpanType("centripetal")
-//         , vParametricSpanType("chord")
-// 
-//     {}
-// 
-//     svLoftingParam(const svLoftingParam &other)
-//         : method(other.method)
-//         , numOutPtsInSegs(other.numOutPtsInSegs)
-//         , samplePerSegment(other.samplePerSegment)
-//         , useLinearSampleAlongLength(other.useLinearSampleAlongLength)
-//         , linearMuliplier(other.linearMuliplier)
-//         , useFFT(other.useFFT)
-//         , numModes(other.numModes)
-//         , addCaps(other.addCaps)
-//         //, noInterOut(other.noInterOut)
-//         , vecFlag(other.vecFlag)
-//         , numOutPtsAlongLength(other.numOutPtsAlongLength)
-//         , numPtsInLinearSampleAlongLength(other.numPtsInLinearSampleAlongLength)
-//         , splineType(other.splineType)
-//         , numSuperPts(other.numSuperPts)
-//         , bias(other.bias)
-//         , tension(other.tension)
-//         , continuity(other.continuity)
-//         , uDegree(other.uDegree)
-//         , vDegree(other.vDegree)
-//         , uKnotSpanType(other.uKnotSpanType)
-//         , vKnotSpanType(other.vKnotSpanType)
-//         , uParametricSpanType(other.uParametricSpanType)
-//         , vParametricSpanType(other.vParametricSpanType)
-//     {}
-// 
-// 
-// };
-
 class SV4GUIMODULESEGMENTATION_EXPORT sv4guiContourGroup : public mitk::BaseData, public sv3::ContourGroup
 {
 public:
@@ -208,16 +116,6 @@ public:
     virtual bool VerifyRequestedRegion() override;
     virtual void SetRequestedRegion(const itk::DataObject *data) override;
 
-    //    int GetGroupID();
-    //    void SetGroupID(int groupID);
-
-        //get the max group ID of all the path nodes.
-    //    static int GetMaxGroupID(mitk::DataStorage::SetOfObjects::ConstPointer rs);
-
-    //std::vector<sv4guiPathElement::sv4guiPathPoint>  GetPathPoints(unsigned int t =0);
-
-    //std::vector<mitk::Point3D> GetPathPosPoints(unsigned int t =0);
-
     int GetCurrentIndexOn2DView();
 
     void SetCurrentIndexOn2DView(int index);
@@ -229,6 +127,10 @@ public:
     double GetResliceSize() const {return m_ResliceSize;}
     
     void SetResliceSize(double size) {m_ResliceSize=size;}
+    
+    bool IsDataModified();
+    
+    void SetDataModified(bool modified = true);
 
   protected:
 
@@ -243,28 +145,11 @@ public:
 
     virtual void InitializeEmpty() override;
 
-    //std::vector< std::vector<sv4guiContour*> > m_ContourSets;
-
-    //bool m_CalculateBoundingBox;
-
-    //int m_GroupID;
-
-//    std::string m_ContourGroupName;
-
-    //int m_PathID;
-
-    //std::string m_PathName;
-
     int m_CurrentIndexOn2DView;
 
-    //lofting parameters as public
-    //svLoftingParam *m_LoftingParam;
-
-    //bool m_DataModified;
+    bool m_DataModified;
 
     double m_ResliceSize;
-
-    //std::map<std::string,std::string> m_Props;
   };
 
 itkEventMacro( sv4guiContourGroupAllEvent, itk::AnyEvent );

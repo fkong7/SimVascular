@@ -224,9 +224,9 @@ public:
     std::vector<Contour*> GetValidContourSet(unsigned int t = 0);//contour points > 1
 
     svLoftingParam* GetLoftingParam() const {return m_LoftingParam;}
-
-    bool IsDataModified();
-    void SetDataModified(bool modified = true);
+// 
+//     bool IsDataModified();
+//     void SetDataModified(bool modified = true);
 
     //double GetResliceSize() const;
 
@@ -261,7 +261,7 @@ public:
     //lofting parameters as public
     svLoftingParam *m_LoftingParam;
 
-    bool m_DataModified;
+    // bool m_DataModified;
 
     //double m_ResliceSize;
 

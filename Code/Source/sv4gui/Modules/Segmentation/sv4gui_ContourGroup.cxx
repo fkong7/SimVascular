@@ -36,11 +36,13 @@
 #include "sv_Math.h"
 
 using sv3::PathElement;
+using sv3::Contour;
 
 sv4guiContourGroup::sv4guiContourGroup()
     : ContourGroup()
     , m_CurrentIndexOn2DView(-2)
     , m_ResliceSize(5.0)
+    , m_DataModified(false)
 {
     this->InitializeEmpty();
 }
@@ -49,6 +51,7 @@ sv4guiContourGroup::sv4guiContourGroup(const sv4guiContourGroup &other)
     : BaseData(other)
     , ContourGroup(other)
     , m_ResliceSize(other.m_ResliceSize)
+    , m_DataModified(true)
 {
 
 }
@@ -98,7 +101,6 @@ sv4guiContour* sv4guiContourGroup::GetContour(int contourIndex, unsigned int t) 
 
 void sv4guiContourGroup::ContourControlPointsChanged(unsigned int t)
 {
-    std::cout<<"InsertControlPoint "<<std::endl;
     this->Modified();
 }
 
@@ -109,15 +111,10 @@ void sv4guiContourGroup::ContoursChanged(unsigned int t)
 
 void sv4guiContourGroup::InsertControlPoint(int contourIndex, int index, mitk::Point3D point, unsigned int t)
 {
-    std::cout<<"InsertControlPoint "<<std::endl;
-    std::array<double,3> pt;
-    for (int i=0; i<3; i++)
-        pt[i] = point[i];
-        
-    if(sv3::ContourGroup::GetContour(contourIndex,t))
+    sv4guiContour* contour = this->GetContour(contourIndex,t);
+    if(contour!=NULL)
     {
-        std::cout<<"InsertControlPoint2 "<<std::endl;
-        this->sv3::ContourGroup::InsertControlPoint(contourIndex,index,pt, t);
+        contour->InsertControlPoint(index,point);
         ContourControlPointsChanged(t);
         this->InvokeEvent( sv4guiContourPointInsertEvent() );
     }
@@ -125,10 +122,10 @@ void sv4guiContourGroup::InsertControlPoint(int contourIndex, int index, mitk::P
 
 void sv4guiContourGroup::RemoveControlPoint(int contourIndex, int index, unsigned int t)
 {
-
-    if(sv3::ContourGroup::GetContour(contourIndex,t))
+    sv4guiContour* contour = this->GetContour(contourIndex,t);
+    if(contour)
     {
-        this->sv3::ContourGroup::RemoveControlPoint(contourIndex,index, t);
+        contour->RemoveControlPoint(index);
         ContourControlPointsChanged(t);
         this->InvokeEvent( sv4guiContourPointRemoveEvent() );
 
@@ -136,15 +133,11 @@ void sv4guiContourGroup::RemoveControlPoint(int contourIndex, int index, unsigne
 }
 
 void sv4guiContourGroup::SetControlPoint(int contourIndex, int index, mitk::Point3D point, unsigned int t)
-{
-    std::array<double,3> pt;
-    for (int i=0; i<3; i++)
-        pt[i] = point[i];
-        
-    
-    if(sv3::ContourGroup::GetContour(contourIndex,t))
+{     
+    sv4guiContour* contour = this->GetContour(contourIndex,t);
+    if(contour)
     {
-        this->sv3::ContourGroup::SetControlPoint(contourIndex,index,pt, t);
+        contour->SetControlPoint(index,point);
         ContourControlPointsChanged(t);
         this->InvokeEvent( sv4guiContourPointMoveEvent() );
     }
@@ -153,9 +146,10 @@ void sv4guiContourGroup::SetControlPoint(int contourIndex, int index, mitk::Poin
 void sv4guiContourGroup::SetControlPointSelectedIndex(int contourIndex, int index, unsigned int t)
 {
 
-    if(sv3::ContourGroup::GetContour(contourIndex,t))
+    sv4guiContour* contour = this->GetContour(contourIndex,t);
+    if(contour)
     {
-        this->sv3::ContourGroup::SetControlPointSelectedIndex(contourIndex,index, t);
+        contour->SetControlPointSelectedIndex(index);
         ContourControlPointsChanged(t);
         this->InvokeEvent( sv4guiContourPointSelectEvent() );
     }
@@ -182,6 +176,7 @@ void sv4guiContourGroup::InsertContour(int contourIndex, sv4guiContour* guiConto
         if(contourIndex>-1 && contourIndex<=sv3::ContourGroup::GetSize(t))
         {
             this->sv3::ContourGroup::InsertContour(contourIndex,contour,t);
+            ContoursChanged(t);
             this->InvokeEvent( sv4guiContourInsertEvent() );
         }
     }
@@ -568,4 +563,8 @@ std::vector<sv4guiContour*> sv4guiContourGroup::GetValidContourSet(unsigned int 
     return guiCts;
 
 }
+
+bool sv4guiContourGroup::IsDataModified(){return m_DataModified;}
+
+void sv4guiContourGroup::SetDataModified(bool modified){m_DataModified=modified;}
 
