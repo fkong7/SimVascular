@@ -35,8 +35,9 @@
 #define SV_ERROR              0
 
 #ifdef SV_USE_PYTHON
-#define Py_OK                 1
-#define Py_ERROR              0
+#include "Python.h"
+#define SV_PYTHON_OK          Py_BuildValue("N",PyBool_FromLong(SV_OK))
+#define SV_PYTHON_ERROR       Py_BuildValue("N",PyBool_FromLong(SV_ERROR))
 #endif
 
 /* true / false don't seem to be defined on linux */
