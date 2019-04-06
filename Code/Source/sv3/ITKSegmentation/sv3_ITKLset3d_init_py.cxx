@@ -127,7 +127,7 @@ CVPYTHONObjMemberSetPropertyMacro(itkls3d,cvITKLevelSetBase<ImageType>,BinarySee
 static int pyLevelSet3d_init(pyLevelSet3d* self, PyObject* args)
 {
   fprintf(stdout,"pyLevelSet3d initialized.\n");
-  return Py_OK;
+  return SV_OK;
 }
 
 PyMethodDef pyLevelSet3d_methods[] = {
@@ -305,20 +305,20 @@ static pyLevelSet3d* itkls3d_NewCmd(  pyLevelSet3d* self, PyObject* args )
 	if(!PyArg_ParseTuple(args, "s",&lsName))
 	{
 		PyErr_SetString(PyRunTimeErr3d,"Could not import 1 char, lsname");
-		return Py_ERROR;
+		return SV_ERROR;
 	}
 
 	// Make sure this is a new object name:
 	if ( !NewName( lsName ) ) {
 		PyErr_SetString(PyRunTimeErr3d, "ITKLevelSetCore object already exists");
-		return Py_ERROR;
+		return SV_ERROR;
 	}
 
 	// Allocate new cvLevelSet object:
 	ls = new cvITKLevelSetBase<ImageType>;
 	if ( ls == NULL ) {
 		PyErr_SetString(PyRunTimeErr3d,"error allocating object");
-		return Py_ERROR;
+		return SV_ERROR;
 	}
 
 	strcpy( ls->tclName_, lsName );
@@ -326,7 +326,7 @@ static pyLevelSet3d* itkls3d_NewCmd(  pyLevelSet3d* self, PyObject* args )
 	if ( !newEntry ) {
 		PyErr_SetString(PyRunTimeErr3d, "error updating cvLevelSet hash table");
 		delete ls;
-		return Py_ERROR;
+		return SV_ERROR;
 	}
 	Tcl_SetHashValue( entryPtr, (ClientData)ls );
     Py_INCREF(ls);
@@ -368,7 +368,7 @@ PyObject* itkls3d_SetInputsMtd( pyLevelSet3d* self, PyObject* args )
 	if(!PyArg_ParseTuple(args, "ss",&inputImageName,&seedPdName))
 	{
 		PyErr_SetString(PyRunTimeErr3d,"Could not import 2 chars");
-		return Py_ERROR;
+		return SV_ERROR;
 	}
 
 	RepositoryDataT typeImg1;
@@ -383,7 +383,7 @@ PyObject* itkls3d_SetInputsMtd( pyLevelSet3d* self, PyObject* args )
 			char temp[2048];
 			sprintf(temp,"couldn't find object ", inputImageName, (char *)NULL );
 			PyErr_SetString(PyRunTimeErr3d, temp );
-			return Py_ERROR;
+			return SV_ERROR;
 		}
 		printf("Found Object\n");
 		// Make sure image is of type STRUCTURED_PTS_T:
@@ -392,7 +392,7 @@ PyObject* itkls3d_SetInputsMtd( pyLevelSet3d* self, PyObject* args )
 			char temp[2048];
 			sprintf(temp,"error: object ", inputImageName, "not of type StructuredPts", (char *)NULL);
 			PyErr_SetString(PyRunTimeErr3d, temp );
-			return Py_ERROR;
+			return SV_ERROR;
 		}
 	}
 
@@ -409,7 +409,7 @@ PyObject* itkls3d_SetInputsMtd( pyLevelSet3d* self, PyObject* args )
 			char temp[2048];
 			sprintf(temp,"couldn't find object ", seedPdName, (char *)NULL );
 			PyErr_SetString(PyRunTimeErr3d, temp );
-			return Py_ERROR;
+			return SV_ERROR;
 		}
 		printf("Found Object\n");
 		// Make sure image is of type STRUCTURED_PTS_T:
@@ -418,7 +418,7 @@ PyObject* itkls3d_SetInputsMtd( pyLevelSet3d* self, PyObject* args )
 			char temp[2048];
 			sprintf(temp,"error: object ", seedPdName, "not of type PolyData", (char *)NULL);
 			PyErr_SetString(PyRunTimeErr3d, temp );
-			return Py_ERROR;
+			return SV_ERROR;
 		}
 	}
 
@@ -441,7 +441,7 @@ static PyObject* itkls3d_PhaseOneLevelSetMtd( pyLevelSet3d* self, PyObject* args
 	&sigmaFeat,&sigmaAdv))
     {
 		PyErr_SetString(PyRunTimeErr3d,"Could not import 5 doubles");
-		return Py_ERROR;
+		return SV_ERROR;
 	}
 	std::cout << "sigmaFeat " << sigmaFeat << std::endl;
 
@@ -466,7 +466,7 @@ static PyObject* itkls3d_PhaseTwoLevelSetMtd( pyLevelSet3d* self, PyObject* args
 	&sigmaFeat,&sigmaAdv))
     {
 		PyErr_SetString(PyRunTimeErr3d,"Could not import 4 doubles");
-		return Py_ERROR;
+		return SV_ERROR;
     }
 
 
@@ -490,7 +490,7 @@ static PyObject* itkls3d_GACLevelSetMtd( pyLevelSet3d* self, PyObject* args )
 	if (!PyArg_ParseTuple(args,"ddd|d",&expFactor,&kappa,&iso,&sigma))
 	{
 		PyErr_SetString(PyRunTimeErr3d,"Could not import 4 doubles");
-		return Py_ERROR;
+		return SV_ERROR;
 	}
 
 	if(sigma >= 0)
@@ -508,7 +508,7 @@ static PyObject* itkls3d_LaplacianLevelSetMtd( pyLevelSet3d* self, PyObject* arg
 	if (!PyArg_ParseTuple(args,"ddd|d",&expFactor,&kappa,&iso,&sigma))
 	{
 		PyErr_SetString(PyRunTimeErr3d,"Could not import 4 doubles");
-		return Py_ERROR;
+		return SV_ERROR;
 	}
 
 	if(sigma >= 0)

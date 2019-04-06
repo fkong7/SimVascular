@@ -152,7 +152,7 @@ PyObject* Occtsolid_pyInit()
             (FactoryMethodPtr) &pyCreateOCCTSolidModel );
   }
   else {
-    return Py_ERROR;
+    return SV_ERROR;
   }
   tmp->registrar = pySolidModelRegistrar;
   PySys_SetObject("solidModelRegistrar",(PyObject*)tmp);
@@ -165,7 +165,7 @@ PyObject* Occtsolid_pyInit()
 if (pythonC==NULL)
   {
     fprintf(stdout,"Error in initializing pySolid");
-    return Py_ERROR;
+    return SV_ERROR;
   }
   return pythonC;
 }
