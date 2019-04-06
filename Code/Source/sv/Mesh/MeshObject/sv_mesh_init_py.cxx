@@ -1038,30 +1038,6 @@ PyObject* cvMesh_GetBoundaryFacesMtd( pyMeshObject* self, PyObject* args)
 // LoadDiscreteModel
 //
 
-int cvMesh_LoadDiscreteModelMtd( pyMeshObject* self, PyObject* args)
-{
-  cvMeshObject *geom = self->geom;
-  char *FileName;
-
-  };
-  if ( argc == 2 ) {
-    return SV_OK;
-  }
-  if ( ARG_ParseTclStr( interp, argc, argv, 2,
-    
-  }
-
-  // Do work of command:
-
-  // read in the results file
-  if (geom->LoadDiscreteModel(FileName) == SV_ERROR) {
-      PyErr_SetString(PyRunTimeErr, "error loading solid model", (char *)NULL);
-      
-  }
-
-  return SV_OK;
-}
-
 */
 
 #endif
